@@ -21,8 +21,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(ProductLoading());
     final result = await getProducts();
     result.fold(
-      (l) => ProductFailure(error: l.message),
-      (r) => ProductSuccess(products: r),
+      (l) => emit(ProductFailure(error: l.message)),
+      (r) => emit(ProductSuccess(products: r)),
     );
   }
 }

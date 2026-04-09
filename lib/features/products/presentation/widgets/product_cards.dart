@@ -39,8 +39,12 @@ class ProductCard extends StatelessWidget {
                   imageUrl: product.images.first,
                   fit: BoxFit.fill,
                   width: double.infinity,
-                  placeholder: (_, _) =>
-                      const Center(child: CircularProgressIndicator()),
+                  placeholder: (_, _) => const Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: AppColors.kBlue,
+                      color: AppColors.kWhite,
+                    ),
+                  ),
                   errorWidget: (_, _, _) =>
                       const Icon(Icons.broken_image, size: 50),
                 ),

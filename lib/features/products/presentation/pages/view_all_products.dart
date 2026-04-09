@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:task_two/features/products/presentation/widgets/product_cards.dart';
+import 'package:task_two/features/products/presentation/widgets/scaffold_widget.dart';
 
 import '../../domain/entity/products.dart';
 
@@ -10,7 +11,7 @@ class ViewAllProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldWidget(
       appBar: AppBar(),
       body: GridView.builder(
         physics: const BouncingScrollPhysics(),
@@ -22,7 +23,7 @@ class ViewAllProducts extends StatelessWidget {
         ),
         itemCount: product.length,
         itemBuilder: (context, index) {
-          return ProductCard(product: product[index], onTap: () {})
+          return ProductCard(product: product[index])
               .animate()
               .fade(duration: 500.ms, delay: (index * 100).ms)
               .slideY(

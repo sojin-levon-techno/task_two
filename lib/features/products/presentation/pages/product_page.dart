@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_two/core/extensions/navigations.dart';
 import 'package:task_two/core/extensions/text_style.dart';
 import 'package:task_two/core/pallete/colors.dart';
 import 'package:task_two/features/products/presentation/pages/view_all_products.dart';
 import 'package:task_two/features/products/presentation/widgets/carousel_widget.dart';
+import 'package:task_two/features/products/presentation/widgets/scaffold_widget.dart';
+import 'package:task_two/features/products/presentation/widgets/search_bar_widget.dart';
 
 import '../bloc/product_bloc.dart';
 import '../widgets/product_cards.dart';
@@ -28,13 +29,13 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldWidget(
       appBar: AppBar(
         actions: [
           Stack(
             children: [
               IconButton(
-                icon: const Icon(CupertinoIcons.bell, size: 30),
+                icon: Icon(Icons.shopping_bag_outlined, size: 30),
                 onPressed: () {},
               ),
               Positioned(
@@ -76,21 +77,26 @@ class _ProductPageState extends State<ProductPage> {
           ),
         ),
       ),
-      body: BlocBuilder<ProductBloc, ProductState>(
-        builder: (context, state) {
-          if (state is ProductLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: SafeArea(
+        child: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            if (state is ProductLoading) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: AppColors.kBlue,
+                  color: AppColors.kWhite,
+                ),
+              );
+            }
 
-          if (state is ProductSuccess) {
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: SafeArea(
-                bottom: false,
+            if (state is ProductSuccess) {
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BannerWidget(),
+                    const SearchBarWithFilter(),
+                    const BannerWidget(),
                     const SizedBox(height: 16),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -143,7 +149,7 @@ class _ProductPageState extends State<ProductPage> {
                       itemBuilder: (context, index) {
                         return ProductCard(
                               product: state.products[index],
-                              onTap: () {},
+                              // onTap: () {},
                             )
                             .animate()
                             .fade(duration: 500.ms, delay: (index * 100).ms)
@@ -157,30 +163,30 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ],
                 ),
-              ),
-            );
-          }
+              );
+            }
 
-          if (state is ProductFailure) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(state.error),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<ProductBloc>().add(FetchProductsEvent());
-                    },
-                    child: const Text("Retry"),
-                  ),
-                ],
-              ),
-            );
-          }
+            if (state is ProductFailure) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(state.error),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<ProductBloc>().add(FetchProductsEvent());
+                      },
+                      child: const Text("Retry"),
+                    ),
+                  ],
+                ),
+              );
+            }
 
-          return const SizedBox.shrink();
-        },
+            return const SizedBox.shrink();
+          },
+        ),
       ),
     );
   }

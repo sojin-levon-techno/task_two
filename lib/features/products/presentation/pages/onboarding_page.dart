@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_two/core/extensions/text_style.dart';
 import 'package:task_two/features/products/presentation/pages/product_page.dart';
+import 'package:task_two/features/products/presentation/widgets/scaffold_widget.dart';
 import '../../../../core/pallete/colors.dart';
 import '../widgets/onboarding_content.dart';
 
@@ -36,10 +37,32 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.kBackground,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      top: false,
+      child: ScaffoldWidget(
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    CupertinoPageRoute(builder: (_) => ProductPage()),
+                  );
+                },
+                child: Text(
+                  "SKIP",
+                  style: context.bodyLarge.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.kBlue,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: Column(
           children: [
             Expanded(
               child: PageView.builder(
@@ -53,42 +76,51 @@ class _OnboardingPageState extends State<OnboardingPage> {
             _buildBottomSection(),
           ],
         ),
+        // bottomNavigationBar: _buildBottomSection(),
       ),
     );
   }
 
   Widget _buildBottomSection() {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(_pages.length, (index) => _buildDot(index)),
-          ),
-          const SizedBox(height: 32),
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: _handleNext,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.kBlue,
-                foregroundColor: AppColors.kWhite,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 600),
+
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                _pages.length,
+                (index) => _buildDot(index),
               ),
-              child: Text(
-                _currentPage == _pages.length - 1 ? 'Get Started' : 'Next',
-                style: context.bodyLarge.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.kWhite,
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: _handleNext,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.kBlue,
+                  foregroundColor: AppColors.kWhite,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  _currentPage == _pages.length - 1 ? 'Get Started' : 'Next',
+                  style: context.bodyLarge.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.kWhite,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

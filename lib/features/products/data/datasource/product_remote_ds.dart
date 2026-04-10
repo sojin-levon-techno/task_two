@@ -18,9 +18,9 @@ class ProductRemoteDsImpl implements ProductRemoteDs {
       final List result = response.data;
       return result.map((x) => ProductModel.fromJson(x)).toList();
     } on DioException catch (e) {
-      throw AppError(e.message ?? 'Network error');
+      throw AppError(dioErrorMessage(e));
     } catch (e) {
-      throw AppError('Unexpected error');
+      rethrow;
     }
   }
 }

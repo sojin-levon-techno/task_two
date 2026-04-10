@@ -168,18 +168,47 @@ class _ProductPageState extends State<ProductPage> {
 
             if (state is ProductFailure) {
               return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(state.error),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<ProductBloc>().add(FetchProductsEvent());
-                      },
-                      child: const Text("Retry"),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_outlined,
+                        size: 100,
+                        color: AppColors.kBlue,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        state.error,
+                        style: context.bodyLarge.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.kBlue,
+                          ),
+                          onPressed: () {
+                            context.read<ProductBloc>().add(
+                              FetchProductsEvent(),
+                            );
+                          },
+                          child: Text(
+                            "Retry",
+                            style: context.bodyLarge.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.kWhite,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }

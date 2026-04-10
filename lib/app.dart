@@ -11,10 +11,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: themeData,
-        home: OnboardingPage(),
+      child: Builder(
+        builder: (context) {
+          final m = MediaQuery.of(context);
+          return MediaQuery(
+            data: m.copyWith(textScaler: const TextScaler.linear(1)),
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: themeData,
+              home: OnboardingPage(),
+            ),
+          );
+        },
       ),
       create: (_) => sl<ProductBloc>(),
     );

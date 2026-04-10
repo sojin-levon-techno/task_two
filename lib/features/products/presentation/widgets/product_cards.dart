@@ -1,21 +1,13 @@
-// presentation/widgets/product_card.dart
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:task_two/core/extensions/text_style.dart';
 import 'package:task_two/core/pallete/colors.dart';
 import 'package:task_two/features/products/domain/entity/products.dart';
 
 class ProductCard extends StatelessWidget {
   final Products product;
-  // final VoidCallback? onTap;
 
-  const ProductCard({
-    super.key,
-    required this.product,
-
-    // this.onTap
-  });
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +75,7 @@ class ProductCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.star, size: 14, color: Colors.amber),
                       const SizedBox(width: 2),
-                      Text(
-                        '4.2', // Replace with actual rating if available
-                        style: const TextStyle(fontSize: 12),
-                      ),
+                      Text('4.2', style: const TextStyle(fontSize: 12)),
                     ],
                   ),
                 ],
@@ -124,7 +113,7 @@ class ProductCard extends StatelessWidget {
                       top: Radius.circular(16),
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: product.images.first,
+                      imageUrl: product.category.image,
                       fit: BoxFit.cover,
                       placeholder: (_, _) =>
                           const Center(child: CircularProgressIndicator()),
@@ -138,7 +127,6 @@ class ProductCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Category chip
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12,
@@ -158,7 +146,7 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      // Title
+
                       Text(
                         product.title,
                         style: const TextStyle(
@@ -168,7 +156,7 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      // Rating row
+
                       Row(
                         children: [
                           Container(
@@ -206,7 +194,7 @@ class ProductCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 12),
-                      // Price
+
                       Text(
                         '₹${product.price}',
                         style: const TextStyle(
@@ -216,10 +204,10 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      // Divider
+
                       Divider(color: Colors.grey.shade300, thickness: 1),
                       const SizedBox(height: 16),
-                      // Description label
+
                       const Text(
                         'Description',
                         style: TextStyle(
@@ -228,7 +216,7 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      // Description
+
                       Text(
                         product.description,
                         style: TextStyle(
@@ -238,12 +226,32 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      // Action buttons
+
                       Row(
                         children: [
                           Expanded(
                             child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: Duration(milliseconds: 600),
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: AppColors.kBlue,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(15),
+                                    ),
+                                    content: Text(
+                                      "Added succesfully",
+                                      style: context.bodyLarge.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.kWhite,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                               style: OutlinedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 14,

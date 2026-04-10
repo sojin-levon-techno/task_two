@@ -90,78 +90,86 @@ class _ProductPageState extends State<ProductPage> {
             }
 
             if (state is ProductSuccess) {
-              return SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SearchBarWithFilter(),
-                    const BannerWidget(),
-                    const SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Discover",
-                            style: context.bodyLarge.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // context.push(
-                              //   page: ViewAllProducts(product: state.products),
-                              // );
-
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (_) =>
-                                      ViewAllProducts(product: state.products),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              "View all",
+              return RefreshIndicator(
+                     backgroundColor: AppColors.kWhite,
+                  color: AppColors.kBlue,
+                  onRefresh: () async {
+                    context.read<ProductBloc>().add(FetchProductsEvent());
+                  },
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SearchBarWithFilter(),
+                      const BannerWidget(),
+                      const SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Discover",
                               style: context.bodyLarge.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.kBlue,
                               ),
                             ),
-                          ),
-                        ],
+                            GestureDetector(
+                              onTap: () {
+                                // context.push(
+                                //   page: ViewAllProducts(product: state.products),
+                                // );
+                  
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (_) => ViewAllProducts(
+                                      product: state.products,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "View all",
+                                style: context.bodyLarge.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.kBlue,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.65,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return ProductCard(
-                              product: state.products[index],
-                              // onTap: () {},
-                            )
-                            .animate()
-                            .fade(duration: 500.ms, delay: (index * 100).ms)
-                            .slideY(
-                              begin: 1,
-                              end: 0,
-                              duration: 600.ms,
-                              curve: Curves.easeOut,
-                            );
-                      },
-                    ),
-                  ],
+                      const SizedBox(height: 16),
+                      GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.65,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                            ),
+                        itemCount: state.products.take(4).length,
+                        itemBuilder: (context, index) {
+                          return ProductCard(
+                                product: state.products[index],
+                                // onTap: () {},
+                              )
+                              .animate()
+                              .fade(duration: 500.ms, delay: (index * 100).ms)
+                              .slideY(
+                                begin: 1,
+                                end: 0,
+                                duration: 600.ms,
+                                curve: Curves.easeOut,
+                              );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             }

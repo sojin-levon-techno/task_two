@@ -22,6 +22,16 @@ A Flutter application that displays a product listing page using a public API. T
 
 ---
 
+## 📸 Screenshots
+
+![Home](assets/images/home.png)
+![Products](assets/images/products.png)
+![Onboarding 1](assets/images/onboarding_one.png)
+![Onboarding 2](assets/images/onboarding_two.png)
+![Onboarding 3](assets/images/onboarding_three.png)
+
+---
+
 ## 🏗 Architecture
 
 This project follows:
@@ -108,12 +118,6 @@ UI → UseCase → Repository → DataSource → API
 * Wrapped using custom `AppError`
 * Returned using `Either<AppError, Data>`
 
----
-assets/images/home.png
-assets/images/onboarding_one.png
-assets/images/onboarding_two.png
-assets/images/onboarding_three.png
-assets/images/products.png
 ---
 
 ## 👤 Author

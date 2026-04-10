@@ -28,7 +28,7 @@ class ProductCard extends StatelessWidget {
                   top: Radius.circular(8),
                 ),
                 child: CachedNetworkImage(
-                  imageUrl: product.category.image,
+                  imageUrl: product.images.first,
                   fit: BoxFit.fill,
                   width: double.infinity,
                   placeholder: (_, _) => const Center(
@@ -113,7 +113,7 @@ class ProductCard extends StatelessWidget {
                       top: Radius.circular(16),
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: product.category.image,
+                      imageUrl: product.images.first,
                       fit: BoxFit.cover,
                       placeholder: (_, _) =>
                           const Center(child: CircularProgressIndicator()),

@@ -24,11 +24,11 @@ A Flutter application that displays a product listing page using a public API. T
 
 ## 📸 Screenshots
 
-![Home](assets/images/home.png)
-![Products](assets/images/products.png)
 ![Onboarding 1](assets/images/onboarding_one.png)
 ![Onboarding 2](assets/images/onboarding_two.png)
 ![Onboarding 3](assets/images/onboarding_three.png)
+![Home](assets/images/home.png)
+![Products](assets/images/products.png)
 
 ---
 
@@ -56,15 +56,15 @@ lib/
  │         └── presentation/
  │              ├── pages/
  │              ├── widgets/
- │              └── state/
+ │              └── bloc/
  │
  └── main.dart
-```
 
 ---
 
 ## 📦 Packages Used
 
+* **Bloc** → State management
 * **dio** → API calls
 * **fpdart** → Functional error handling (`Either`)
 * **get_it** → Dependency injection
@@ -84,31 +84,13 @@ https://api.escuelajs.co/api/v1/products
 
 ## 🧠 State Management
 
-Uses a clean and scalable approach using Bloc-style pattern.
+Uses a clean and scalable approach using Bloc.
 
 Handles:
 
 * Loading state
 * Success state
 * Error state
-
----
-
-## 📱 UI Details
-
-* GridView with 2 columns
-* Card-based product UI
-* Optimized spacing and scaling for tablets
-
----
-
-## 🔄 Data Flow
-
-```
-UI → UseCase → Repository → DataSource → API
-                                 ↓
-                         Model → Entity
-```
 
 ---
 
